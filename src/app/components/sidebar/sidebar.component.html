@@ -1,0 +1,9 @@
+<nav class="sidebar-container d-flex flex-column align-items-center fs-20 pt-5 px-4">
+    <div class="sidebar-image"></div>
+    <div class="d-flex flex-column gap-3 mt-5" >
+      <a [routerLink]="item.route" routerLinkActive="active-link" class="secondary-hover" *ngFor="let item of menuItems">
+        <span>{{item.title}}</span>
+        <app-svg-image [iconName]="'angle-double-right'"></app-svg-image>
+      </a>
+    </div>
+</nav>

@@ -1,0 +1,13 @@
+<div class="d-flex justify-content-between">
+  <div class="pe-5">
+    <img class="logo" src="../../../assets/img/logo.png" alt="moneytolia logo">
+  </div>
+  <div class="navbar-links">
+    <ul>
+      <li *ngFor="let item of navItems">
+        <a [routerLink]="item.route" [ngClass]="item.isFeatured ? 'btn-featured':'none'">{{item.title}}</a>
+      </li>
+    </ul>
+</div>
+</div>
+
