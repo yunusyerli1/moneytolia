@@ -2,8 +2,17 @@
     <div class="sidebar-image"></div>
     <div class="d-flex flex-column gap-3 mt-5" >
       <a [routerLink]="item.route" routerLinkActive="active-link" class="secondary-hover" *ngFor="let item of menuItems">
-        <span>{{item.title}}</span>
-        <app-svg-image [iconName]="'angle-double-right'"></app-svg-image>
+        <div class="d-flex align-items-center">
+          <span class="pb-1">
+            <app-svg-image [iconName]="item.icon"></app-svg-image>
+          </span>
+          
+          <span class="ms-2">{{item.title}}</span>
+        </div>
       </a>
     </div>
+    <div class="social-media-section">
+      <app-social-media></app-social-media>
+    </div>
+    
 </nav>
