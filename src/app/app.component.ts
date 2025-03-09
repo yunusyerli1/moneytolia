@@ -28,25 +28,25 @@ export class AppComponent {
   sideMenu = [
     {
       title: "Campaigns",
-      icon: "campaign",
-      route: "home"
+      icon: "megaphone-line",
+      route: "/"
     },
     {
       title: "Create Campaigns",
-      icon: "campaigncreate",
-      route: "campaign-create"
+      icon: "add-circle-line",
+      route: "/create"
     },
   ]
 
   menuItems:INavbarModel[] = [
     {
-      title: "List",
+      title: "Campaigns",
       route: "/",
       isFeatured: false
     },
     {
       title: "Create",
-      route: "/campaign-create",
+      route: "/create",
       isFeatured: false
     },
     {
