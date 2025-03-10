@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { INavbarModel } from '../../models/INavbarModel';
+import { INavbarModel } from '../../helpers/models/INavbarModel';
 import { RouterLink } from '@angular/router';
 
 @Component({

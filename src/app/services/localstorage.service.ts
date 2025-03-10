@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ObjectKey } from '../models/IObjectModel';
+import { ObjectKey } from '../helpers/models/IObjectModel';
 
 @Injectable({
   providedIn: 'root'

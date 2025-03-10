@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CampaignStore } from '../../stores/campaign.store';
 
 @Component({
   selector: 'app-campaign-list',
@@ -7,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrl: './campaign-list.component.scss'
 })
 export class CampaignListComponent {
+  
+  constructor(
+    private campaignStore: CampaignStore,
+  ) { }
 
 }
