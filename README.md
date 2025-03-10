@@ -2,6 +2,24 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.1.
 
+## Starting the Project
+
+To start the project, run the following commands:
+```bash
+npm install
+ng serve
+```
+
+## User Credentials
+
+Use the following credentials to log in:
+
+```bash
+Email: test@test.com
+
+Password: 123456
+```
+
 ## Development server
 
 To start a local development server, run:

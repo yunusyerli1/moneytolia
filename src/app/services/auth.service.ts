@@ -7,13 +7,16 @@ import { LocalstorageService } from './localstorage.service';
 })
 export class AuthService {
 
+  mockEmail: string = "test@test.com";
+  mockPassword: string = "123456"
+
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
   private localStorage = inject(LocalstorageService);
 
   public login(email: string, password: string): boolean {
-    if (email === 'test@test.com' && password === '123456') {
+    if (email === this.mockEmail && password === this.mockPassword) {
       this.isLoggedInSubject.next(true);
       const user = { email, isLoggedIn: true };
       this.localStorage.setItem('user', JSON.stringify(user));

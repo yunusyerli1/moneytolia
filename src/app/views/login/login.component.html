@@ -5,24 +5,30 @@
                 <h3 class="fw-bold">Login</h3>
             </div>
 
-            <form (ngSubmit)="onSubmit()">
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="email" [(ngModel)]="email" name="email" required />
+                    <input type="email" class="form-control" id="email" formControlName="email" />
+                    <small *ngIf="loginForm.get('email')?.hasError('required') && loginForm.get('email')?.dirty"
+                        class="invalid-feedback d-block">Email is required</small>
                 </div>
 
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" [(ngModel)]="password" name="password"
-                        required />
+                    <input type="password" class="form-control" id="password" formControlName="password" />
+                    <small *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.dirty"
+                        class="invalid-feedback d-block">Password is required</small>
+                    <small *ngIf="loginForm.get('password')?.hasError('minlength') " class="invalid-feedback d-block">
+                        Password must be at least 6 characters</small>
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100">Login</button>
+                <div *ngIf="this.validationMessage" class="invalid-feedback d-block pb-3">{{this.validationMessage}}</div>
+
+                <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid">Login</button>
             </form>
 
             <div class="text-center mt-3">
-                <small>Don't have an account? <a class="cpointer secondary-hover" routerLink="/register">Sign
-                        up</a></small>
+                <small>Don't have an account? <a class="cpointer secondary-hover" routerLink="/register">Sign up</a></small>
             </div>
         </div>
     </div>
