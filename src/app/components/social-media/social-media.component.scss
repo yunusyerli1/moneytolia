@@ -13,7 +13,7 @@ $social-colors: (
   margin: 0;
   padding: 0;
 
-  > li {
+  >li {
     margin-right: 5px;
 
     @each $name, $color in $social-colors {
@@ -25,7 +25,7 @@ $social-colors: (
       }
     }
 
-    > a {
+    >a {
       height: $size;
       width: $size;
       border-radius: $size;
@@ -39,6 +39,7 @@ $social-colors: (
       border: none;
       padding-bottom: 5px;
       box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+
       &:hover {
         background-color: $orange;
       }

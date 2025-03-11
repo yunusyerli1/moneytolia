@@ -49,17 +49,17 @@ export class CampaignStore {
     this.updateState(updatedList);
   }
 
-  public deleteCampaign(id: string) {
+  public deleteCampaign(id: string): void {
     const currentList = this.store.getValue();
     const filteredArray = currentList.filter((campaign) => campaign.id !== id);
     this.updateState(filteredArray);
   }
 
-  private setLocalStorage(campaigns: ICampaignModel[]) {
+  private setLocalStorage(campaigns: ICampaignModel[]): void {
     this.localStorageService.setItem("campaigns", JSON.stringify(campaigns));
   }
 
-  private getLocalStorage() {
+  private getLocalStorage(): ICampaignModel[] {
     const storedData = this.localStorageService.getItem("campaigns");
     return storedData ? JSON.parse(storedData) : [];
   }

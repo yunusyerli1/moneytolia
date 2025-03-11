@@ -4,9 +4,9 @@
         <app-sidebar [menuItems]="sideMenu"></app-sidebar>
     </div>
 
-    <div class="container" style="overflow-x: hidden;">
-        <a class="btn btn-secondary"
-            [ngClass]="isSidebarCollapsed ? 'button-sidebar-collapsed': 'button-sidebar-expanded'"
+    <div class="container " style="overflow-x: hidden;">
+        <a class="btn btn-secondary d-none"
+            [ngClass]="isSidebarCollapsed ? 'button-sidebar-collapsed d-md-block': 'button-sidebar-expanded d-md-block'"
             (click)="collapseSidebar()">
             <app-svg-image [iconName]="'menu-duo-lg'"></app-svg-image>
         </a>

@@ -103,7 +103,8 @@
   transform: translateX(-50px);
   top: 75%;
   pointer-events: none;
-  animation: rocket-movement 200s linear infinite both running;
+  animation: rocket-movement 10s linear infinite both running;
+  overflow: hidden;
 }
 
 .object_earth {
@@ -168,19 +169,19 @@
 
 @-moz-keyframes rocket-movement {
   100% {
-    -moz-transform: translate(1200px, -600px);
+    -moz-transform: translate(100vw, -600px);
   }
 }
 
 @-webkit-keyframes rocket-movement {
   100% {
-    -webkit-transform: translate(1200px, -600px);
+    -webkit-transform: translate(100vw, -600px);
   }
 }
 
 @keyframes rocket-movement {
   100% {
-    transform: translate(1200px, -600px);
+    transform: translate(100vw, -600px);
   }
 }
 

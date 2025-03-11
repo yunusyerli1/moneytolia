@@ -9,7 +9,7 @@ import { CampaignStore } from '../../stores/campaign.store';
 
 @Component({
   selector: 'app-table',
-  imports: [CommonModule, SvgImageComponent, TruncatePipe, MatDialogModule ],
+  imports: [CommonModule, SvgImageComponent, TruncatePipe, MatDialogModule],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss'
 })
@@ -22,7 +22,7 @@ export class TableComponent {
   constructor(
     private campaignStore: CampaignStore,
     private dialog: MatDialog
-  ) {}
+  ) { }
 
   public openModal(item: ICampaignModel): void {
     this.dialog.open(ModalComponent, {
