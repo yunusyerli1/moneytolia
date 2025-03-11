@@ -4,9 +4,9 @@ import { CampaignListComponent } from './views/campaign-list/campaign-list.compo
 import { CampaignCreateComponent } from './views/campaign-create/campaign-create.component';
 import { LoginComponent } from './views/login/login.component';
 import { HomeComponent } from './views/home/home.component';
-import { AuthGuard } from './guards/auth.guard';
-import { LoggedInGuard } from './guards/logged-in.guard';
-import { LogoutGuard } from './guards/logout.guard';
+import { AuthGuard } from './helpers/guards/auth.guard';
+import { LoggedInGuard } from './helpers/guards/logged-in.guard';
+import { LogoutGuard } from './helpers/guards/logout.guard';
 
 export const routes: Routes = [
   {

@@ -3,6 +3,7 @@ import { SvgImageComponent } from '../svg-image/svg-image.component';
 import { RouterLink, RouterLinkActive  } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SocialMediaComponent } from '../social-media/social-media.component';
+import { INavbarModel } from '../../helpers/models/INavbarModel';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,9 +12,5 @@ import { SocialMediaComponent } from '../social-media/social-media.component';
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent {
-  @Input() menuItems:any;
-
-  trackByFn(index: number, item: any) {
-    return item.id;
-  }
+  @Input() menuItems: INavbarModel[]= [];
 }

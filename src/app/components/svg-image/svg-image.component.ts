@@ -10,6 +10,6 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 export class SvgImageComponent {
   @Input() width: string = '20px';
   @Input() height: string = '20px';
-  @Input() iconName: string = 'angle-double-right';
+  @Input() iconName?: string = 'angle-double-right';
   @Input() color: string = '';
 }

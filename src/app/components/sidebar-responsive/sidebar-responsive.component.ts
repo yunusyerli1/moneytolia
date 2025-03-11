@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SvgImageComponent } from '../svg-image/svg-image.component';
+import { INavbarModel } from '../../helpers/models/INavbarModel';
 
 @Component({
   selector: 'app-sidebar-responsive',
@@ -11,6 +12,6 @@ import { SvgImageComponent } from '../svg-image/svg-image.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarResponsiveComponent {
-  @Input() menuItems:any;
+  @Input() menuItems: INavbarModel[]= [];
   isButtonClicked:boolean = false;
 }
