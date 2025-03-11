@@ -27,7 +27,7 @@ export class CampaignStore {
     }
   }
 
-  public updateState(campaigns: ICampaignModel[]): void {
+  private updateState(campaigns: ICampaignModel[]): void {
     this.store.next(internalState = campaigns);
     this.setLocalStorage(campaigns);
   }
@@ -38,7 +38,18 @@ export class CampaignStore {
     this.updateState(updatedArray);
   }
 
-  public deleteItem(id: string) {
+  public updateCampaign(campaign: ICampaignModel): void {
+    const currentList = this.store.getValue();
+    const updatedList = currentList.map((item) => {
+      if (item.id === campaign.id) {
+        return campaign;
+      }
+      return item;
+    });
+    this.updateState(updatedList);
+  }
+
+  public deleteCampaign(id: string) {
     const currentList = this.store.getValue();
     const filteredArray = currentList.filter((campaign) => campaign.id !== id);
     this.updateState(filteredArray);

@@ -1,3 +1,3 @@
-export interface ObjectKey {
+export interface IObjectKey {
     [key: string]: any; 
   }
