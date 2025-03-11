@@ -12,7 +12,14 @@
                 <td>{{i + 1}}</td>
                 <td [title]="item.title">{{item.title | truncate: 40 }}</td>
                 <td [title]="item.description">{{item.description | truncate: 80 }}</td>
-                <td>{{item.points}}</td>
+                <td>{{item.points}}
+                    <a class="secondary-hover cpointer" (click)="increasePoints(item)">
+                        <app-svg-image [iconName]="'add-line'" [width]="'12px'"></app-svg-image>
+                    </a>
+                    <a class="secondary-hover cpointer" (click)="decreasePoints(item)">
+                        <app-svg-image [iconName]="'subtract-line'" [width]="'12px'"></app-svg-image>
+                    </a>
+                </td>
                 <td>{{item.date | date:'dd.MM.yyyy'}}</td>
                 <td class="d-flex gap-2">
                     <a (click)="openModal(item)" class="cpointer secondary-hover">

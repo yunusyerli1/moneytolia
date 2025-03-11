@@ -3,17 +3,14 @@
     <h2 mat-dialog-title>Update</h2>
     <div mat-dialog-actions>
       <button mat-button (click)="closeModal()">
-        <b class="secondary-hover" >X</b>
+        <b class="secondary-hover">X</b>
       </button>
     </div>
   </div>
-  
+
   <div mat-dialog-content>
 
-    <app-form-create-campaign 
-      [formData]="data"
-      (formSubmitted)="submitForm($event)"
-    ></app-form-create-campaign>
+    <app-form-create-campaign [formData]="data" (formSubmitted)="submitForm($event)"></app-form-create-campaign>
   </div>
-  
+
 </div>

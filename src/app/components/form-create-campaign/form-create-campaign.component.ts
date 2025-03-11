@@ -40,7 +40,7 @@ export class FormCreateCampaignComponent implements OnInit{
     });
   }
 
-  onSubmit() {
+  public onSubmit() {
     if (this.campaignForm.valid) {
       const id = this.formData.id && this.formData.id.trim() !== '' ? this.formData.id : uuidv4();
       const newCampaign: ICampaignModel = {
