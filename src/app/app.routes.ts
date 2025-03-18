@@ -1,25 +1,32 @@
 import { Routes } from '@angular/router';
 import { NotFoundComponent } from './views/not-found/not-found.component';
-import { CampaignListComponent } from './views/campaign-list/campaign-list.component';
-import { CampaignCreateComponent } from './views/campaign-create/campaign-create.component';
-import { LoginComponent } from './views/login/login.component';
-import { HomeComponent } from './views/home/home.component';
 import { AuthGuard } from './helpers/guards/auth.guard';
 import { LoggedInGuard } from './helpers/guards/logged-in.guard';
 import { LogoutGuard } from './helpers/guards/logout.guard';
 
 export const routes: Routes = [
   {
-    path: "", component: HomeComponent,
+    path: "",
+    loadComponent: () => import('./views/home/home.component').then((m) => m.HomeComponent),
     children: [
-      { path: "", component: CampaignListComponent },
-      { path: "create", component: CampaignCreateComponent },
+      { path: "", loadComponent: () => import('./containers/campaign-list/campaign-list.component').then((m) => m.CampaignListComponent) },
+      { path: "create", loadComponent: () => import('./containers/campaign-create/campaign-create.component').then((m) => m.CampaignCreateComponent) },
     ],
     canActivate: [AuthGuard]
   },
   { path: "", redirectTo: "", pathMatch: "full" },
-  { path: "login", component: LoginComponent, canActivate: [LoggedInGuard] },
-  { path: "logout", component: LoginComponent, canActivate: [LogoutGuard] },
-  { path: "404", component: NotFoundComponent },
+  { 
+    path: "login", 
+    loadComponent: () => import('./views/login/login.component').then((m) => m.LoginComponent),
+    canActivate: [LoggedInGuard] 
+  },
+  { 
+    path: "logout", 
+    loadComponent: () => import('./views/login/login.component').then((m) => m.LoginComponent),
+    canActivate: [LogoutGuard] },
+  { 
+    path: "404", 
+    loadComponent: () => import('./views/not-found/not-found.component').then((m) => m.NotFoundComponent),
+  },
   { path: "**", component: NotFoundComponent },
 ];

@@ -73,4 +73,9 @@ export class CampaignStore {
     return this.store;
   }
 
+  search(search: string) {
+    console.log("search", search)
+  
+  }
+
 }
