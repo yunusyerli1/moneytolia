@@ -1,33 +1,35 @@
-import { Component, inject } from '@angular/core';
-import { CampaignStore } from '../../stores/campaign.store';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableComponent } from '../../components/table/table.component';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
+import { ITableConfig } from '../../helpers/models/ITableConfig';
+import { TableAdapter } from '../../adapters/table.adapter';
 
 @Component({
   selector: 'app-campaign-list',
   imports: [CommonModule, TableComponent, SearchBarComponent],
+  providers: [TableAdapter],
   templateUrl: './campaign-list.component.html',
-  styleUrl: './campaign-list.component.scss'
+  styleUrl: './campaign-list.component.scss',
 })
-export class CampaignListComponent {
+export class CampaignListComponent implements OnInit, OnDestroy {
 
-  private campaignStore = inject(CampaignStore);
+  tableConfig!: ITableConfig; 
 
-  campaigns = toSignal(this.campaignStore.state$);
-  
-  tableTitles: string[] = [
-    "Title",
-    "Description",
-    "Points",
-    "Date", 
-    "Actions"
-  ];
+  constructor(
+    private adapter: TableAdapter
+  ) {}
+
+  ngOnInit(): void {
+    this.tableConfig = this.adapter.tableConfigSignal();
+  }
+
+  ngOnDestroy(): void {
+    this.adapter.clean();
+  }
 
   onSearch(searchValue: string) {
-    console.log("searchValue", searchValue)
-    this.campaignStore.search(searchValue)
+    this.adapter.performSearch(searchValue);
   }
 
 }

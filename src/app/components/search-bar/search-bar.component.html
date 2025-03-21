@@ -1,3 +1,10 @@
-<div class="mb-3">
-    <input type="search" class="form-control round" id="search" placeholder="Search" [(ngModel)]="searchValue" (ngModelChange)="onSearch()">
-  </div>
+
+  <form class="mb-3" [formGroup]="searchForm">
+    <input
+      type="text"
+      class="form-control round" 
+      id="search"
+      formControlName="searchInput"
+      placeholder="Search..."
+    />
+  </form>

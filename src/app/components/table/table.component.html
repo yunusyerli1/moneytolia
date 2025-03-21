@@ -1,38 +1,44 @@
-<ng-container *ngIf="list()?.length; else noData">
-
+<ng-container *ngIf="config.records().length; else noData">
     <table class="table table-hover scroll" id="table">
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col" *ngFor="let title of titles">{{title}}</th>
+                <th scope="col" *ngFor="let title of config.titles">{{title}}</th>
+                <th scope="col" *ngIf="config.actions">Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of list(); let i = index; trackBy: trackByFn">
+            <tr *ngFor="let record of (config.records()); let i = index; trackBy: trackByFn">
                 <td>{{i + 1}}</td>
-                <td [title]="item.title">{{item.title | truncate: 40 }}</td>
-                <td [title]="item.description">{{item.description | truncate: 80 }}</td>
-                <td>{{item.points}}
-                    <a class="secondary-hover cpointer" (click)="increasePoints(item)">
-                        <app-svg-image [iconName]="'add-line'" [width]="'12px'"></app-svg-image>
-                    </a>
-                    <a class="secondary-hover cpointer" (click)="decreasePoints(item)">
-                        <app-svg-image [iconName]="'subtract-line'" [width]="'12px'"></app-svg-image>
-                    </a>
+                <td *ngFor="let title of config.titles">
+                    <span *ngIf="!record[title.toLowerCase()].actions">{{record[title.toLowerCase()]}}</span>
+                    <ng-container *ngIf="record[title.toLowerCase()].actions">
+                        <div class="d-flex">
+                            <span class="pe-2">{{record[title.toLowerCase()].value}}</span>
+                            <a *ngFor="let action of record[title.toLowerCase()].actions" class="secondary-hover cpointer" (click)="triggerAction(action, record)">
+                                <app-svg-image [iconName]="action.iconName" [width]="'12px'"></app-svg-image>
+                            </a>
+                        </div>
+                        
+                    </ng-container>
                 </td>
-                <td>{{item.date | date:'dd.MM.yyyy'}}</td>
-                <td class="d-flex gap-2">
-                    <a (click)="openModal(item)" class="cpointer secondary-hover">
-                        <app-svg-image [iconName]="'edit-line'"></app-svg-image>
-                    </a>
-                    <a (click)="deleteRecord(item)" class="cpointer secondary-hover">
-                        <app-svg-image [iconName]="'delete-bin-line'"></app-svg-image>
-                    </a>
+             
+                <td  *ngIf="config.actions" >
+                    <div class="d-flex gap-2">
+                        <a *ngFor="let action of config.actions" (click)="triggerAction(action, record)" class="cpointer secondary-hover">
+                            <app-svg-image [iconName]="action.iconName"></app-svg-image>
+                        </a>
+                    </div>
+                    
                 </td>
+               
+                
             </tr>
         </tbody>
     </table>
 </ng-container>
+
+
 
 <ng-template #noData>
     <div class="alert alert-danger" role="alert">
