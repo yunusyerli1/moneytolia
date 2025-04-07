@@ -22,9 +22,12 @@ export class FormCreateCampaignComponent implements OnInit{
     id: ""
   }
 
+  @Input() isEdit: boolean = false;
+
   campaignForm!: FormGroup;
   successMessage: boolean = false;
   campaignList: ICampaignModel[] = [];
+  
   
   constructor(
     private formBuilder: FormBuilder,
@@ -49,7 +52,8 @@ export class FormCreateCampaignComponent implements OnInit{
       };
       
       this.formSubmitted.emit(newCampaign);
-      this.toastr.success('The campaign has been added successfully!', 'SUCCESS!');
+      let successMessage = this.isEdit ? 'The campaign has been updated successfully!' : 'The campaign has been added successfully!';
+      this.toastr.success(successMessage, 'SUCCESS!');
       this.campaignForm.reset(); 
       this.campaignForm.patchValue({ points: 0, date: new Date().toISOString().split('T')[0] });
     }

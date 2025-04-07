@@ -10,7 +10,7 @@
 
   <div mat-dialog-content>
 
-    <app-form-create-campaign [formData]="data" (formSubmitted)="submitForm($event)"></app-form-create-campaign>
+    <app-form-create-campaign [isEdit]="true" [formData]="data" (formSubmitted)="submitForm($event)"></app-form-create-campaign>
   </div>
 
 </div>
