@@ -3,7 +3,8 @@ import { Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormCreateCampaignComponent } from '../form-create-campaign/form-create-campaign.component';
-import { CampaignStore } from '../../stores/campaign.store';
+import { Store } from '@ngrx/store';
+import * as CampaignActions from '../../stores/campaign.actions';
 
 @Component({
   selector: 'app-modal',
@@ -16,7 +17,7 @@ export class ModalComponent {
   constructor(
     public dialogRef: MatDialogRef<ModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private campaignStore: CampaignStore
+    private store: Store
   ) {}
 
   public closeModal(): void {
@@ -24,7 +25,7 @@ export class ModalComponent {
   }
 
   public submitForm(item: any): void {
-    this.campaignStore.updateCampaign(item);
+    this.store.dispatch((CampaignActions.updateCampaign({ campaign: item })));
     this.dialogRef.close();
   }
 

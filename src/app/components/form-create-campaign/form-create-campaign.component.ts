@@ -5,14 +5,13 @@ import { ToastrService } from 'ngx-toastr';
 import { ICampaignModel } from '../../helpers/models/ICampaignModel';
 import { v4 as uuidv4 } from 'uuid';
 
-
 @Component({
   selector: 'app-form-create-campaign',
   imports: [ReactiveFormsModule, NgIf],
   templateUrl: './form-create-campaign.component.html',
   styleUrl: './form-create-campaign.component.scss'
 })
-export class FormCreateCampaignComponent implements OnInit{
+export class FormCreateCampaignComponent implements OnInit {
   @Output() formSubmitted = new EventEmitter<ICampaignModel>();
   @Input() formData: ICampaignModel = {
     title: "",
@@ -27,7 +26,6 @@ export class FormCreateCampaignComponent implements OnInit{
   campaignForm!: FormGroup;
   successMessage: boolean = false;
   campaignList: ICampaignModel[] = [];
-  
   
   constructor(
     private formBuilder: FormBuilder,
@@ -46,7 +44,6 @@ export class FormCreateCampaignComponent implements OnInit{
   public onSubmit() {
     if (this.campaignForm.valid) {
       const id = this.formData.id && this.formData.id.trim() !== '' ? this.formData.id : uuidv4();
-      console.log(this.campaignForm.value.title)
       const newCampaign: ICampaignModel = {
         ...this.campaignForm.value,
         id: id, 

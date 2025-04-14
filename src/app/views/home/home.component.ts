@@ -6,7 +6,8 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { SidebarResponsiveComponent } from '../../components/sidebar-responsive/sidebar-responsive.component';
 import { RouterOutlet } from '@angular/router';
-import { CampaignStore } from '../../stores/campaign.store';
+import { Store } from '@ngrx/store';
+import * as CampaignActions from '../../stores/campaign.actions';
 
 @Component({
   selector: 'app-home',
@@ -54,15 +55,14 @@ export class HomeComponent {
       route: "/logout",
       isFeatured: true
     },
-
   ]
 
-  constructor(private campaignStore: CampaignStore) {
-    this.campaignStore.init();
-   }
+  constructor(private store: Store) {
+    this.store.dispatch(CampaignActions.loadCampaigns());
+  }
+
 
   collapseSidebar() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
-
 }

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormCreateCampaignComponent } from '../../components/form-create-campaign/form-create-campaign.component';
-import { CampaignStore } from '../../stores/campaign.store';
 import { ICampaignModel } from '../../helpers/models/ICampaignModel';
+import { Store } from '@ngrx/store';
+import * as CampaignActions from '../../stores/campaign.actions';
 
 @Component({
   selector: 'app-campaign-create',
@@ -11,9 +12,9 @@ import { ICampaignModel } from '../../helpers/models/ICampaignModel';
 })
 export class CampaignCreateComponent {
 
-  constructor(private campaignStore: CampaignStore) {}
+  constructor(private store: Store) {}
 
   public submitForm(item: ICampaignModel): void {
-    this.campaignStore.addToState([item]);
+    this.store.dispatch(CampaignActions.addCampaigns({ campaigns: [item] }));
   }
 }

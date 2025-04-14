@@ -1,13 +1,13 @@
-import { computed, inject, Injectable, OnDestroy, Signal } from '@angular/core';
-import { CampaignStore } from '../stores/campaign.store';
-import { map, takeUntil, tap } from 'rxjs/operators';
-import { BehaviorSubject, Observable, Subject, Subscribable, Subscription } from 'rxjs';
+import { computed, Injectable, Signal } from '@angular/core';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { IAction, ITableConfig } from '../helpers/models/ITableConfig';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../components/modal/modal.component';
-import { ICampaignModel, ITableCampaignModel } from '../helpers/models/ICampaignModel';
-import { DatePipe } from '@angular/common';
+import { ICampaignModel } from '../helpers/models/ICampaignModel';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { Store } from '@ngrx/store';
+import { selectAllCampaigns } from '../stores/campaign.selectors';
+import * as CampaignActions from '../stores/campaign.actions';
 
 @Injectable()
 export class TableAdapter{
@@ -28,18 +28,16 @@ export class TableAdapter{
     
 
     constructor(
-        private campaignStore: CampaignStore,
+        private store: Store,
         private dialog: MatDialog
     ) {
-        this.subs.push(this.campaignStore.state$
-        .subscribe(data => {
-            this.listSubject.next(data);
-            this.filteredListSubject.next(data);
-        }));
+        this.subs.push(this.store.select(selectAllCampaigns).subscribe(campaigns => {
+            this.listSubject.next(campaigns);
+            this.filteredListSubject.next(campaigns);
+          }));
         
         this.campaignsSignal = toSignal(this.filteredListSubject, { initialValue: [] });
     }
-
 
     public tableConfigSignal: Signal<ITableConfig> = computed(() => {
         return {
@@ -93,27 +91,21 @@ export class TableAdapter{
                 actionName: 'delete',
                 iconName: 'delete-bin-line',
                 function: (item: any): void => {
-                    this.campaignStore.deleteCampaign(item.id);
+                    this.store.dispatch(CampaignActions.deleteCampaign({ id: item.id }));
                 }
-            },
+            }
         ];
     }
 
 
     public increasePoints(item: ICampaignModel): void {
-        const newItem = {
-            ...item,
-            points: item.points + 1,
-        };
-        this.campaignStore.updateCampaign(newItem);
+        const updatedItem = { ...item, points: item.points + 1 };
+        this.store.dispatch(CampaignActions.updateCampaign({ campaign: updatedItem }));
     }
 
     public decreasePoints(item: ICampaignModel): void {
-        const newItem = {
-            ...item,
-            points: item.points - 1,
-        };
-        this.campaignStore.updateCampaign(newItem);
+        const updatedItem = { ...item, points: item.points - 1 };
+        this.store.dispatch(CampaignActions.updateCampaign({ campaign: updatedItem }));
     }
 
     public truncateText(text: string, maxLength: number): string {
