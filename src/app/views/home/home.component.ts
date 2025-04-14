@@ -7,7 +7,7 @@ import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { SidebarResponsiveComponent } from '../../components/sidebar-responsive/sidebar-responsive.component';
 import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
-import * as CampaignActions from '../../stores/campaign.actions';
+import * as CampaignActions from '../../stores/campaign-store/campaign.actions';
 
 @Component({
   selector: 'app-home',

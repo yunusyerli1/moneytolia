@@ -2,9 +2,19 @@
   <div class="card p-4 shadow-lg">
     <h3 class="fw-bold text-center mb-3">Campaigns</h3>
     <app-search-bar (search)="onSearch($event)"></app-search-bar>
-    <div class="scroll" style="overflow: auto; max-height: 620px;">
-      <app-table [config]="tableConfig">
-      </app-table>
+  
+
+    <div *ngIf="adapter.loadingSignal()" class="loading">
+      Loading campaigns...
     </div>
+
+    <div *ngIf="adapter.errorSignal()" class="error">
+      Error: {{ adapter.errorSignal() }}
+    </div>
+
+    <div class="scroll" style="overflow: auto; max-height: 620px;">
+      <app-table [config]="tableConfig" *ngIf="!adapter.loadingSignal() && !adapter.errorSignal()">
+      </app-table>
   </div>
+
 </div>

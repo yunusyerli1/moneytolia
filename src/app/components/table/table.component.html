@@ -11,7 +11,7 @@
             <tr *ngFor="let record of (config.records()); let i = index; trackBy: trackByFn">
                 <td>{{i + 1}}</td>
                 <td *ngFor="let title of config.titles">
-                    <span *ngIf="!record[title.toLowerCase()].actions">{{record[title.toLowerCase()]}}</span>
+                    <span *ngIf="!record[title.toLowerCase()].actions">{{record[title.toLowerCase()] | truncate: 40}}</span>
                     <ng-container *ngIf="record[title.toLowerCase()].actions">
                         <div class="d-flex">
                             <span class="pe-2">{{record[title.toLowerCase()].value}}</span>
@@ -19,20 +19,15 @@
                                 <app-svg-image [iconName]="action.iconName" [width]="'12px'"></app-svg-image>
                             </a>
                         </div>
-                        
                     </ng-container>
                 </td>
-             
-                <td  *ngIf="config.actions" >
+                <td *ngIf="config.actions">
                     <div class="d-flex gap-2">
                         <a *ngFor="let action of config.actions" (click)="triggerAction(action, record)" class="cpointer secondary-hover">
                             <app-svg-image [iconName]="action.iconName"></app-svg-image>
                         </a>
                     </div>
-                    
                 </td>
-               
-                
             </tr>
         </tbody>
     </table>

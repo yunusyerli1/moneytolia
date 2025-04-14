@@ -3,10 +3,11 @@ import { Component, Input} from '@angular/core';
 import { SvgImageComponent } from '../svg-image/svg-image.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ITableConfig } from '../../helpers/models/ITableConfig';
+import { TruncatePipe } from '../../helpers/pipes/truncate.pipe';
 
 @Component({
   selector: 'app-table',
-  imports: [CommonModule, SvgImageComponent, MatDialogModule],
+  imports: [CommonModule, SvgImageComponent, MatDialogModule, TruncatePipe],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
 })

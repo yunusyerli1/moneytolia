@@ -17,7 +17,7 @@ export class CampaignListComponent implements OnInit, OnDestroy {
   tableConfig!: ITableConfig; 
 
   constructor(
-    private adapter: TableAdapter
+    public adapter: TableAdapter
   ) {}
 
   ngOnInit(): void {

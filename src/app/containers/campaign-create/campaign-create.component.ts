@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormCreateCampaignComponent } from '../../components/form-create-campaign/form-create-campaign.component';
 import { ICampaignModel } from '../../helpers/models/ICampaignModel';
 import { Store } from '@ngrx/store';
-import * as CampaignActions from '../../stores/campaign.actions';
+import * as CampaignActions from '../../stores/campaign-store/campaign.actions';
 
 @Component({
   selector: 'app-campaign-create',

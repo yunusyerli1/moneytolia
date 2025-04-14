@@ -8,7 +8,9 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { campaignReducer } from './stores/campaign.reducer';
+import { provideEffects } from '@ngrx/effects';
+import { campaignReducer } from './stores/campaign-store/campaign.reducer';
+import { CampaignEffects } from './stores/campaign-store/campaign.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,6 +25,7 @@ export const appConfig: ApplicationConfig = {
         preventDuplicates: true,
     }),
     provideStore({ campaign: campaignReducer }),
-    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })
+    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
+    provideEffects(CampaignEffects)
 ]
 };

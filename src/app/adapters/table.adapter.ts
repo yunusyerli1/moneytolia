@@ -6,13 +6,14 @@ import { ModalComponent } from '../components/modal/modal.component';
 import { ICampaignModel } from '../helpers/models/ICampaignModel';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
-import { selectAllCampaigns } from '../stores/campaign.selectors';
-import * as CampaignActions from '../stores/campaign.actions';
+import { selectAllCampaigns, selectLoading, selectError } from '../stores/campaign-store/campaign.selectors';
+import * as CampaignActions from '../stores/campaign-store/campaign.actions';
 
 @Injectable()
-export class TableAdapter{
-
+export class TableAdapter {
     public campaignsSignal: Signal<ICampaignModel[]>;
+    public loadingSignal: Signal<boolean>;
+    public errorSignal: Signal<any>;
 
     private listSubject = new BehaviorSubject<ICampaignModel[]>([]);
     private filteredListSubject = new BehaviorSubject<ICampaignModel[]>([]);
@@ -25,51 +26,56 @@ export class TableAdapter{
     ];
 
     private subs: Subscription[] = [];
-    
 
     constructor(
         private store: Store,
         private dialog: MatDialog
     ) {
+        
+        // Subscribe to campaigns
         this.subs.push(this.store.select(selectAllCampaigns).subscribe(campaigns => {
             this.listSubject.next(campaigns);
             this.filteredListSubject.next(campaigns);
-          }));
-        
+        }));
+
+        // Subscribe to loading state
+        this.loadingSignal = toSignal(this.store.select(selectLoading), { initialValue: false });
+
+        // Subscribe to error state
+        this.errorSignal = toSignal(this.store.select(selectError), { initialValue: null });
+
         this.campaignsSignal = toSignal(this.filteredListSubject, { initialValue: [] });
     }
 
     public tableConfigSignal: Signal<ITableConfig> = computed(() => {
         return {
-          showHeader: false,
-          showFooter: false,
-          titles: this.tableTitles,
-          records: computed(() => {
-            return this.campaignsSignal().map(campaign => ({
-              ...campaign,
-              title: this.truncateText(campaign.title, 40),
-              description: this.truncateText(campaign.description, 80),
-              date: this.formatDate(campaign.date),
-              points: {
-                value: campaign.points,
-                actions: [
-                  {
-                    actionName: 'increase',
-                    iconName: 'add-line',
-                    function: () => this.increasePoints(campaign)
-                  },
-                  {
-                    actionName: 'decrease',
-                    iconName: 'subtract-line',
-                    function: () => this.decreasePoints(campaign)
-                  },
-                ]
-              },
-            }))
-          }),
-          actions: this.getTableActions()
+            showHeader: false,
+            showFooter: false,
+            titles: this.tableTitles,
+            records: computed(() => {
+                return this.campaignsSignal().map(campaign => ({
+                    ...campaign,
+                    date: this.formatDate(campaign.date.toString()),
+                    points: {
+                        value: campaign.points,
+                        actions: [
+                            {
+                                actionName: 'increase',
+                                iconName: 'add-line',
+                                function: () => this.increasePoints(campaign)
+                            },
+                            {
+                                actionName: 'decrease',
+                                iconName: 'subtract-line',
+                                function: () => this.decreasePoints(campaign)
+                            },
+                        ]
+                    },
+                }))
+            }),
+            actions: this.getTableActions()
         };
-      });
+    });
 
     public getTableActions(): IAction[] {
         return [
@@ -97,51 +103,35 @@ export class TableAdapter{
         ];
     }
 
-
-    public increasePoints(item: ICampaignModel): void {
-        const updatedItem = { ...item, points: item.points + 1 };
-        this.store.dispatch(CampaignActions.updateCampaign({ campaign: updatedItem }));
-    }
-
-    public decreasePoints(item: ICampaignModel): void {
-        const updatedItem = { ...item, points: item.points - 1 };
-        this.store.dispatch(CampaignActions.updateCampaign({ campaign: updatedItem }));
-    }
-
-    public truncateText(text: string, maxLength: number): string {
-        return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
-    }
-
-    public formatDate(date: Date | string): string {
-        const dateObj = new Date(date);
-        const day = ('0' + dateObj.getDate()).slice(-2);
-        const month = ('0' + (dateObj.getMonth() + 1)).slice(-2);
-        const year = dateObj.getFullYear();
-
-        return `${day}.${month}.${year}`;
-    }
-
-    performSearch(searchValue: string){
-        if (!searchValue) {
-            this.clearFilter();
-            return;
-        }
-
-        const filteredList = this.listSubject.value.filter(
-            listItem => (
-                listItem.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()) ||
-                listItem.description.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
-            )
+    public performSearch(searchValue: string): void {
+        const filteredList = this.listSubject.value.filter(item =>
+            item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+            item.description.toLowerCase().includes(searchValue.toLowerCase())
         );
+        this.filteredListSubject.next(filteredList);
+    }
 
-        this.filteredListSubject.next(filteredList)
-      }
-    
-      clearFilter() {
-        this.filteredListSubject.next(this.listSubject.value);
-      }
+    private increasePoints(campaign: ICampaignModel): void {
+        const updatedCampaign = {
+            ...campaign,
+            points: campaign.points + 1
+        };
+        this.store.dispatch(CampaignActions.updateCampaign({ campaign: updatedCampaign }));
+    }
 
-      clean() {
-        this.subs = [];
-      }
+    private decreasePoints(campaign: ICampaignModel): void {
+        const updatedCampaign = {
+            ...campaign,
+            points: Math.max(0, campaign.points - 1)
+        };
+        this.store.dispatch(CampaignActions.updateCampaign({ campaign: updatedCampaign }));
+    }
+
+    private formatDate(date: string): string {
+        return new Date(date).toLocaleDateString();
+    }
+
+    public clean(): void {
+        this.subs.forEach(sub => sub.unsubscribe());
+    }
 }

@@ -11,13 +11,13 @@ export const selectAllCampaigns = createSelector(
 );
 
 // Get loading state
-export const selectCampaignsLoading = createSelector(
+export const selectLoading = createSelector(
   selectCampaignState,
   (state: CampaignState) => state.loading
 );
 
 // Get error state
-export const selectCampaignsError = createSelector(
+export const selectError = createSelector(
   selectCampaignState,
   (state: CampaignState) => state.error
 );
